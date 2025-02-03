@@ -1,6 +1,6 @@
 package strutsoftheworld.particle;
 
-import strutsoftheworld.Vars;
+import strutsoftheworld.Globals;
 import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.client.particle.Particle;
 import net.minecraft.client.particle.ParticleProvider;
@@ -19,7 +19,7 @@ public class WasteRaindropSplashParticle extends WaterDropParticle {
             zd = dz;
         }
 
-        var color = Vars.STRUTS_FLOOR_WATER_COLOR;
+        var color = Globals.STRUTS_FLOOR_WATER_COLOR;
         setColor(color.r(), color.g(), color.b());
     }
 

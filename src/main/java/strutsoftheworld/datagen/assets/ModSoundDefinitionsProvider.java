@@ -23,7 +23,7 @@ public class ModSoundDefinitionsProvider extends SoundDefinitionsProvider {
                 .with(modSound("ambient/struts_floor_loop").volume(0.75f).stream())
         );
         add(ModSoundEvents.MUSIC_BIOME_STRUTS_FLOOR, definition()
-                .with(modSound("music/biome_struts_floor_01").volume(0.6f).stream())
+                .with(modSound("music/game/struts/rot_weed").volume(0.5f).stream())
         );
     }
 }

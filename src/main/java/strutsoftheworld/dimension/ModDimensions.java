@@ -1,4 +1,4 @@
-package strutsoftheworld.worldgen.dimension;
+package strutsoftheworld.dimension;
 
 import strutsoftheworld.StrutsOfTheWorldMod;
 import strutsoftheworld.worldgen.biome.ModBiomes;

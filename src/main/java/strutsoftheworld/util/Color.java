@@ -11,6 +11,13 @@ public record Color(float r, float g, float b, float a) {
         this(r, g, b, 1f);
     }
 
+    public Color {
+        if (r < 0f || 1f < r) throw new IllegalArgumentException("Red component out of bounds");
+        if (g < 0f || 1f < g) throw new IllegalArgumentException("Green component out of bounds");
+        if (b < 0f || 1f < b) throw new IllegalArgumentException("Blue component out of bounds");
+        if (a < 0f || 1f < a) throw new IllegalArgumentException("Alpha component out of bounds");
+    }
+
     public static Color fromRGB(int colorBits) {
         int r = (colorBits >> 16) & 0xFF;
         int g = (colorBits >> 8) & 0xFF;

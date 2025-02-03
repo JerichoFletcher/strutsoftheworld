@@ -1,7 +1,7 @@
 package strutsoftheworld.worldgen.biome;
 
 import strutsoftheworld.StrutsOfTheWorldMod;
-import strutsoftheworld.Vars;
+import strutsoftheworld.Globals;
 import strutsoftheworld.particle.ModParticles;
 import strutsoftheworld.sound.ModSoundEvents;
 import strutsoftheworld.worldgen.feature.ModPlacedFeatures;
@@ -31,11 +31,11 @@ public class ModBiomes {
                         .addFeature(GenerationStep.Decoration.VEGETAL_DECORATION, ModPlacedFeatures.SCATTERED_TRASH_PILE)
                         .build()
                 ).specialEffects(new BiomeSpecialEffects.Builder()
-                        .skyColor(Vars.STRUTS_FLOOR_SKY_COLOR.toRGBInt())
-                        .fogColor(Vars.STRUTS_FLOOR_FOG_COLOR.toRGBInt())
-                        .waterColor(Vars.STRUTS_FLOOR_WATER_COLOR.toRGBInt())
-                        .waterFogColor(Vars.STRUTS_FLOOR_WATER_FOG_COLOR.toRGBInt())
-                        .ambientParticle(new AmbientParticleSettings(ModParticles.WASTE_RAINDROP.get(), 0.1f))
+                        .skyColor(Globals.STRUTS_FLOOR_SKY_COLOR.toRGBInt())
+                        .fogColor(Globals.STRUTS_FLOOR_FOG_COLOR.toRGBInt())
+                        .waterColor(Globals.STRUTS_FLOOR_WATER_COLOR.toRGBInt())
+                        .waterFogColor(Globals.STRUTS_FLOOR_WATER_FOG_COLOR.toRGBInt())
+                        .ambientParticle(new AmbientParticleSettings(ModParticles.WASTE_RAINDROP.get(), 0.01f))
                         .ambientLoopSound(ModSoundEvents.AMBIENT_STRUTS_FLOOR_LOOP.getHolder().orElseThrow())
                         .backgroundMusic(Musics.createGameMusic(ModSoundEvents.MUSIC_BIOME_STRUTS_FLOOR.getHolder().orElseThrow()))
                         .build()

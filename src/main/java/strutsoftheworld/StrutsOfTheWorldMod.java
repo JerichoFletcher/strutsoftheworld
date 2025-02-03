@@ -1,13 +1,14 @@
 package strutsoftheworld;
 
+import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
 import strutsoftheworld.block.ModBlocks;
 import strutsoftheworld.item.ModCreativeModeTabs;
 import strutsoftheworld.item.ModItems;
+import strutsoftheworld.network.ModNetworkHandler;
 import strutsoftheworld.particle.ModParticles;
 import strutsoftheworld.sound.ModSoundEvents;
 import strutsoftheworld.worldgen.feature.ModFeatures;
 import com.mojang.logging.LogUtils;
-import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.config.ModConfig;
@@ -22,7 +23,7 @@ public class StrutsOfTheWorldMod {
 
     public StrutsOfTheWorldMod(FMLJavaModLoadingContext context) {
         IEventBus bus = context.getModEventBus();
-        MinecraftForge.EVENT_BUS.register(this);
+        bus.addListener(this::commonSetup);
 
         // Register mod contents
         ModCreativeModeTabs.register(bus);
@@ -35,5 +36,9 @@ public class StrutsOfTheWorldMod {
 
         // Register our config specification to the mod container
         context.registerConfig(ModConfig.Type.COMMON, Config.SPEC);
+    }
+
+    private void commonSetup(FMLCommonSetupEvent context) {
+        context.enqueueWork(ModNetworkHandler::register);
     }
 }
