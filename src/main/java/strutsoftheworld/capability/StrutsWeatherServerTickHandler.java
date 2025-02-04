@@ -26,13 +26,13 @@ public class StrutsWeatherServerTickHandler {
         Level level = player.level();
 
         if (!level.isClientSide()
-                && level.dimension().location().equals(ModDimensions.STRUTS_OF_THE_WORLD.location())
+            && level.dimension().location().equals(ModDimensions.STRUTS_OF_THE_WORLD.location())
         ) {
             level.getCapability(ModCapabilities.STRUTS_WEATHER).ifPresent(weather -> {
                 LOGGER.info("Sending weather state to logged in player {}", player.getName().getString());
                 ModNetworkHandler.instance().send(
-                        StrutsWeatherCapability.Packet.of(weather),
-                        PacketDistributor.PLAYER.with((ServerPlayer) player)
+                    StrutsWeatherCapability.Packet.of(weather),
+                    PacketDistributor.PLAYER.with((ServerPlayer) player)
                 );
             });
         }
@@ -44,7 +44,7 @@ public class StrutsWeatherServerTickHandler {
         ResourceKey<Level> levelTo = event.getTo();
 
         if (player instanceof ServerPlayer serverPlayer
-                && levelTo.location().equals(ModDimensions.STRUTS_OF_THE_WORLD.location())
+            && levelTo.location().equals(ModDimensions.STRUTS_OF_THE_WORLD.location())
         ) {
             var server = serverPlayer.getServer();
             if (server == null) return;
@@ -55,8 +55,8 @@ public class StrutsWeatherServerTickHandler {
             level.getCapability(ModCapabilities.STRUTS_WEATHER).ifPresent(weather -> {
                 LOGGER.info("Sending weather state to recently entered target dimension player {}", player.getName().getString());
                 ModNetworkHandler.instance().send(
-                        StrutsWeatherCapability.Packet.of(weather),
-                        PacketDistributor.PLAYER.with(serverPlayer)
+                    StrutsWeatherCapability.Packet.of(weather),
+                    PacketDistributor.PLAYER.with(serverPlayer)
                 );
             });
         }
@@ -68,7 +68,7 @@ public class StrutsWeatherServerTickHandler {
         RandomSource rand = level.getRandom();
 
         if (!level.isClientSide()
-                && level.dimension().location().equals(ModDimensions.STRUTS_OF_THE_WORLD.location())
+            && level.dimension().location().equals(ModDimensions.STRUTS_OF_THE_WORLD.location())
         ) {
             level.getCapability(ModCapabilities.STRUTS_WEATHER).ifPresent(weather -> {
                 weather.update();
@@ -79,8 +79,8 @@ public class StrutsWeatherServerTickHandler {
                     weather.setRainStrengthDrift(newRainStrengthDrift);
 
                     ModNetworkHandler.instance().send(
-                            StrutsWeatherCapability.Packet.of(weather),
-                            PacketDistributor.DIMENSION.with(level.dimension())
+                        StrutsWeatherCapability.Packet.of(weather),
+                        PacketDistributor.DIMENSION.with(level.dimension())
                     );
                 }
             });

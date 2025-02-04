@@ -1,13 +1,13 @@
 package strutsoftheworld.particle;
 
-import strutsoftheworld.Globals;
 import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.client.particle.*;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.particles.SimpleParticleType;
 import net.minecraft.world.level.material.Fluids;
+import strutsoftheworld.Globals;
 
-public class WasteRaindropParticle extends TextureSheetParticle {
+public class WasteRaindropParticle extends FaceCameraXZAxisParticle {
     private static final float QUAD_SCALE = 0.1f;
     private static final int LIFETIME = 120;
     private static final int FADE_IN_AGE = 10;
@@ -29,13 +29,10 @@ public class WasteRaindropParticle extends TextureSheetParticle {
     }
 
     @Override
-    public FacingCameraMode getFacingCameraMode() {
-        return FacingCameraMode.LOOKAT_Y;
-    }
-
-    @Override
     public void tick() {
-        xo = x; yo = y; zo = z;
+        xo = x;
+        yo = y;
+        zo = z;
         if (age++ >= lifetime) {
             remove();
             return;
@@ -57,11 +54,13 @@ public class WasteRaindropParticle extends TextureSheetParticle {
             return;
         }
 
-        xd *= friction; yd *= friction; zd *= friction;
+        xd *= friction;
+        yd *= friction;
+        zd *= friction;
         var pos = BlockPos.containing(x, y, z);
         var fluid = level.getFluidState(pos);
 
-        if (fluid.is(Fluids.WATER) && y < (double)((float)pos.getY() + fluid.getHeight(this.level, pos))) {
+        if (fluid.is(Fluids.WATER) && y < (double) ((float) pos.getY() + fluid.getHeight(this.level, pos))) {
             remove();
         }
     }

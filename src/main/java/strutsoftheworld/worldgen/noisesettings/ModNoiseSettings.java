@@ -1,7 +1,5 @@
 package strutsoftheworld.worldgen.noisesettings;
 
-import strutsoftheworld.StrutsOfTheWorldMod;
-import strutsoftheworld.block.ModBlocks;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.data.worldgen.BootstrapContext;
 import net.minecraft.resources.ResourceKey;
@@ -12,6 +10,8 @@ import net.minecraft.world.level.levelgen.NoiseGeneratorSettings;
 import net.minecraft.world.level.levelgen.NoiseSettings;
 import net.minecraft.world.level.levelgen.SurfaceRules;
 import net.minecraft.world.level.levelgen.VerticalAnchor;
+import strutsoftheworld.StrutsOfTheWorldMod;
+import strutsoftheworld.block.ModBlocks;
 
 public class ModNoiseSettings {
     public static final ResourceKey<NoiseGeneratorSettings> STRUTS_NOISE = registerKey("struts_noise");
@@ -21,20 +21,20 @@ public class ModNoiseSettings {
         var noiseParamReg = context.lookup(Registries.NOISE);
 
         context.register(STRUTS_NOISE, new NoiseGeneratorSettings(
-                NoiseSettings.create(0, 256, 1, 2),
-                ModBlocks.TRASH_BLOCK.get().defaultBlockState(),
-                Blocks.WATER.defaultBlockState(),
-                ModNoiseRouterData.struts(densityFuncReg, noiseParamReg),
-                SurfaceRules.ifTrue(
-                        SurfaceRules.verticalGradient("bedrock_floor", VerticalAnchor.bottom(), VerticalAnchor.aboveBottom(5)),
-                        SurfaceRules.state(Blocks.BEDROCK.defaultBlockState())
-                ),
-                new OverworldBiomeBuilder().spawnTarget(),
-                48,
-                true,
-                false,
-                false,
-                false
+            NoiseSettings.create(0, 256, 1, 2),
+            ModBlocks.TRASH_BLOCK.get().defaultBlockState(),
+            Blocks.WATER.defaultBlockState(),
+            ModNoiseRouterData.struts(densityFuncReg, noiseParamReg),
+            SurfaceRules.ifTrue(
+                SurfaceRules.verticalGradient("bedrock_floor", VerticalAnchor.bottom(), VerticalAnchor.aboveBottom(5)),
+                SurfaceRules.state(Blocks.BEDROCK.defaultBlockState())
+            ),
+            new OverworldBiomeBuilder().spawnTarget(),
+            48,
+            true,
+            false,
+            false,
+            false
         ));
     }
 

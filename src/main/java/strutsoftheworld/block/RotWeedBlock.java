@@ -1,23 +1,31 @@
 package strutsoftheworld.block;
 
-import strutsoftheworld.tag.ModTags;
 import com.mojang.serialization.MapCodec;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.server.level.ServerLevel;
+import net.minecraft.util.Mth;
 import net.minecraft.util.RandomSource;
-import net.minecraft.world.level.BlockGetter;
-import net.minecraft.world.level.Level;
-import net.minecraft.world.level.LevelReader;
+import net.minecraft.world.level.*;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.BonemealableBlock;
-import net.minecraft.world.level.block.BushBlock;
+import net.minecraft.world.level.block.CropBlock;
 import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.block.state.StateDefinition;
+import net.minecraft.world.level.block.state.properties.BlockStateProperties;
+import net.minecraft.world.level.block.state.properties.IntegerProperty;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.VoxelShape;
+import net.minecraftforge.common.ForgeHooks;
+import strutsoftheworld.Globals;
+import strutsoftheworld.item.ModItems;
+import strutsoftheworld.tag.ModTags;
 
-public class RotWeedBlock extends BushBlock implements BonemealableBlock {
+public class RotWeedBlock extends CropBlock implements BonemealableBlock {
     public static final MapCodec<RotWeedBlock> CODEC = simpleCodec(RotWeedBlock::new);
+    public static final int MAX_AGE = BlockStateProperties.MAX_AGE_3;
+    public static final IntegerProperty AGE = BlockStateProperties.AGE_3;
+
     protected static final VoxelShape SHAPE = Block.box(2.0, 0.0, 2.0, 14.0, 13.0, 14.0);
 
     @Override
@@ -25,13 +33,52 @@ public class RotWeedBlock extends BushBlock implements BonemealableBlock {
         return CODEC;
     }
 
+    @Override
+    protected void createBlockStateDefinition(StateDefinition.Builder<Block, BlockState> builder) {
+        builder.add(AGE);
+    }
+
     public RotWeedBlock(Properties blockProperties) {
         super(blockProperties);
     }
 
     @Override
+    protected IntegerProperty getAgeProperty() {
+        return AGE;
+    }
+
+    @Override
+    public int getMaxAge() {
+        return MAX_AGE;
+    }
+
+    @Override
     protected VoxelShape getShape(BlockState pState, BlockGetter pLevel, BlockPos pPos, CollisionContext pContext) {
         return SHAPE;
+    }
+
+    @Override
+    protected void randomTick(BlockState state, ServerLevel level, BlockPos pos, RandomSource random) {
+        if (level.getBrightness(LightLayer.SKY, pos) < Globals.ROT_WEED_GROWTH_MAX_SKY_LIGHT) {
+            int age = getAge(state);
+            if (age < getMaxAge()) {
+                float f = getRotWeedGrowthSpeed(level, pos);
+                if (ForgeHooks.onCropsGrowPre(level, pos, state, random.nextInt((int) (25f / f) + 1) == 0)) {
+                    level.setBlock(pos, getStateForAge(age + 1), Block.UPDATE_CLIENTS);
+                    ForgeHooks.onCropsGrowPost(level, pos, state);
+                }
+            }
+        }
+    }
+
+    @Override
+    protected int getBonemealAgeIncrease(Level pLevel) {
+        return MAX_AGE;
+    }
+
+    @Override
+    protected ItemLike getBaseSeedId() {
+        return ModItems.ROT_WEED_BUDS.get();
     }
 
     @Override
@@ -48,18 +95,11 @@ public class RotWeedBlock extends BushBlock implements BonemealableBlock {
         return mayPlaceOn(state, level, belowPos);
     }
 
-    @Override
-    public boolean isValidBonemealTarget(LevelReader level, BlockPos pos, BlockState state) {
-        return state.is(ModBlocks.ROT_WEED.get());
-    }
-
-    @Override
-    public boolean isBonemealSuccess(Level level, RandomSource random, BlockPos pos, BlockState state) {
-        return true;
-    }
-
-    @Override
-    public void performBonemeal(ServerLevel level, RandomSource random, BlockPos pos, BlockState state) {
-        level.setBlock(pos, ModBlocks.GLOWING_ROT_WEED.get().defaultBlockState(), Block.UPDATE_CLIENTS);
+    protected static float getRotWeedGrowthSpeed(BlockAndTintGetter level, BlockPos pos) {
+        int skyLight = level.getBrightness(LightLayer.SKY, pos);
+        return Mth.clamp(
+            1f - Mth.inverseLerp(skyLight, 0f, Globals.ROT_WEED_GROWTH_MAX_SKY_LIGHT),
+            0f, 1f
+        );
     }
 }

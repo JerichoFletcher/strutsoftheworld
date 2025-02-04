@@ -27,7 +27,7 @@ public record Color(float r, float g, float b, float a) {
     }
 
     public static Color fromRGB(int r, int g, int b) {
-        return new Color((float)r / 255, (float)g / 255, (float)b / 255);
+        return new Color((float) r / 255, (float) g / 255, (float) b / 255);
     }
 
     public static Color fromRGBA(int colorBits) {
@@ -40,7 +40,7 @@ public record Color(float r, float g, float b, float a) {
     }
 
     public static Color fromRGBA(int r, int g, int b, int a) {
-        return new Color((float)r / 255, (float)g / 255, (float)b / 255, (float)a / 255);
+        return new Color((float) r / 255, (float) g / 255, (float) b / 255, (float) a / 255);
     }
 
     public ColorRGBA toRGBA() {

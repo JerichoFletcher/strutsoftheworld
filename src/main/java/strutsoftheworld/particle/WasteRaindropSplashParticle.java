@@ -1,12 +1,12 @@
 package strutsoftheworld.particle;
 
-import strutsoftheworld.Globals;
 import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.client.particle.Particle;
 import net.minecraft.client.particle.ParticleProvider;
 import net.minecraft.client.particle.SpriteSet;
 import net.minecraft.client.particle.WaterDropParticle;
 import net.minecraft.core.particles.SimpleParticleType;
+import strutsoftheworld.Globals;
 
 public class WasteRaindropSplashParticle extends WaterDropParticle {
     public WasteRaindropSplashParticle(ClientLevel level, double x, double y, double z, double dx, double dy, double dz) {

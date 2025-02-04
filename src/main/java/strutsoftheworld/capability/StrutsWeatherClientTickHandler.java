@@ -5,12 +5,15 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.client.player.LocalPlayer;
 import net.minecraft.core.BlockPos;
+import net.minecraft.util.Mth;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.levelgen.Heightmap;
 import net.minecraftforge.event.TickEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 import org.slf4j.Logger;
+import strutsoftheworld.Globals;
 import strutsoftheworld.StrutsOfTheWorldMod;
 import strutsoftheworld.dimension.ModDimensions;
 import strutsoftheworld.particle.ModParticles;
@@ -26,7 +29,7 @@ public class StrutsWeatherClientTickHandler {
         LocalPlayer player = mc.player;
 
         if (level != null && player != null && !mc.isPaused()
-                && level.dimension().location().equals(ModDimensions.STRUTS_OF_THE_WORLD.location())
+            && level.dimension().location().equals(ModDimensions.STRUTS_OF_THE_WORLD.location())
         ) {
             // Update client-side weather data
             StrutsWeatherCapability.ClientData.update();
@@ -44,18 +47,21 @@ public class StrutsWeatherClientTickHandler {
     }
 
     private static void spawnAddAmbientParticle(ClientLevel level, int x, int y, int z, int range, RandomSource rand, BlockPos.MutableBlockPos pos) {
-        pos.set(
-                x + rand.nextInt(range) - rand.nextInt(range),
-                y + rand.nextInt(range) - rand.nextInt(range),
-                z + rand.nextInt(range) - rand.nextInt(range)
-        );
+        if (rand.nextFloat() > StrutsWeatherCapability.ClientData.getRainParticleProbability()) return;
+
+        int tX = x + rand.nextInt(range) - rand.nextInt(range);
+        int tZ = z + rand.nextInt(range) - rand.nextInt(range);
+        int tY = Math.max(y, level.getHeight(Heightmap.Types.WORLD_SURFACE, tX, tZ)) + Globals.STRUTS_RAIN_PARTICLE_DIST_FROM_GROUND;
+        pos.set(tX, tY, tZ);
+
         BlockState state = level.getBlockState(pos);
-        if (!state.isCollisionShapeFullBlock(level, pos) && rand.nextFloat() <= StrutsWeatherCapability.ClientData.getRainParticleProbability()) {
+        if (!level.isInsideBuildHeight(tY) || !state.isCollisionShapeFullBlock(level, pos)) {
+            pos.setY(tY + rand.nextInt(range));
             level.addParticle(ModParticles.WASTE_RAINDROP.get(),
-                    (double) pos.getX() + rand.nextDouble(),
-                    (double) pos.getY() + rand.nextDouble(),
-                    (double) pos.getZ() + rand.nextDouble(),
-                    0f, 0f, 0f
+                (double) pos.getX() + rand.nextDouble(),
+                (double) pos.getY() + rand.nextDouble(),
+                (double) pos.getZ() + rand.nextDouble(),
+                0f, 0f, 0f
             );
         }
     }

@@ -1,11 +1,5 @@
 package strutsoftheworld.datagen;
 
-import strutsoftheworld.StrutsOfTheWorldMod;
-import strutsoftheworld.datagen.assets.ModModelProvider;
-import strutsoftheworld.datagen.assets.ModParticleDescriptionProvider;
-import strutsoftheworld.datagen.assets.ModSoundDefinitionsProvider;
-import strutsoftheworld.datagen.data.*;
-import strutsoftheworld.datagen.lang.ModEnUSLangProvider;
 import net.minecraft.DetectedVersion;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.data.DataGenerator;
@@ -20,6 +14,12 @@ import net.minecraftforge.common.data.ExistingFileHelper;
 import net.minecraftforge.data.event.GatherDataEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
+import strutsoftheworld.StrutsOfTheWorldMod;
+import strutsoftheworld.datagen.assets.ModModelProvider;
+import strutsoftheworld.datagen.assets.ModParticleDescriptionProvider;
+import strutsoftheworld.datagen.assets.ModSoundDefinitionsProvider;
+import strutsoftheworld.datagen.data.*;
+import strutsoftheworld.datagen.lang.ModEnUSLangProvider;
 
 import java.util.Collections;
 import java.util.List;
@@ -42,9 +42,9 @@ public class DataGenerators {
         // Register server providers
         gen.addProvider(event.includeServer(), new ModRecipeProvider.Runner(out, lookupProv));
         gen.addProvider(event.includeServer(), new LootTableProvider(out, Collections.emptySet(),
-                List.of(
-                    new LootTableProvider.SubProviderEntry(ModBlockLootTableProvider::new, LootContextParamSets.BLOCK)
-                ), lookupProv)
+            List.of(
+                new LootTableProvider.SubProviderEntry(ModBlockLootTableProvider::new, LootContextParamSets.BLOCK)
+            ), lookupProv)
         );
 
         var blockTagProv = new ModBlockTagProvider(out, lookupProv, efh);
@@ -56,11 +56,11 @@ public class DataGenerators {
 
         // Register pack metadata generator
         gen.addProvider(event.includeServer(), new PackMetadataGenerator(out)
-                .add(PackMetadataSection.TYPE, new PackMetadataSection(
-                        Component.literal(String.format("Resources for %s", StrutsOfTheWorldMod.MOD_NAME)),
-                        DetectedVersion.BUILT_IN.getPackVersion(PackType.CLIENT_RESOURCES),
-                        Optional.empty()
-                ))
+            .add(PackMetadataSection.TYPE, new PackMetadataSection(
+                Component.literal(String.format("Resources for %s", StrutsOfTheWorldMod.MOD_NAME)),
+                DetectedVersion.BUILT_IN.getPackVersion(PackType.CLIENT_RESOURCES),
+                Optional.empty()
+            ))
         );
     }
 

@@ -1,12 +1,12 @@
 package strutsoftheworld.datagen.assets;
 
-import strutsoftheworld.StrutsOfTheWorldMod;
-import strutsoftheworld.sound.ModSoundEvents;
 import net.minecraft.data.PackOutput;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraftforge.common.data.ExistingFileHelper;
 import net.minecraftforge.common.data.SoundDefinition;
 import net.minecraftforge.common.data.SoundDefinitionsProvider;
+import strutsoftheworld.StrutsOfTheWorldMod;
+import strutsoftheworld.sound.ModSoundEvents;
 
 public class ModSoundDefinitionsProvider extends SoundDefinitionsProvider {
     public ModSoundDefinitionsProvider(PackOutput out, ExistingFileHelper efh) {
@@ -20,10 +20,10 @@ public class ModSoundDefinitionsProvider extends SoundDefinitionsProvider {
     @Override
     public void registerSounds() {
         add(ModSoundEvents.AMBIENT_STRUTS_FLOOR_LOOP, definition()
-                .with(modSound("ambient/struts_floor_loop").volume(0.75f).stream())
+            .with(modSound("ambient/struts_floor_loop").volume(0.75f).stream())
         );
         add(ModSoundEvents.MUSIC_BIOME_STRUTS_FLOOR, definition()
-                .with(modSound("music/game/struts/rot_weed").volume(0.5f).stream())
+            .with(modSound("music/game/struts/rot_weed").volume(0.5f).stream())
         );
     }
 }

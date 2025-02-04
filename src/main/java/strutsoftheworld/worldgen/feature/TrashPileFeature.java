@@ -1,7 +1,5 @@
 package strutsoftheworld.worldgen.feature;
 
-import strutsoftheworld.block.ModBlocks;
-import strutsoftheworld.block.TrashPileBlock;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.level.WorldGenLevel;
 import net.minecraft.world.level.block.Block;
@@ -10,6 +8,8 @@ import net.minecraft.world.level.levelgen.feature.Feature;
 import net.minecraft.world.level.levelgen.feature.FeaturePlaceContext;
 import net.minecraft.world.level.levelgen.feature.configurations.NoneFeatureConfiguration;
 import net.minecraft.world.level.material.Fluids;
+import strutsoftheworld.block.ModBlocks;
+import strutsoftheworld.block.TrashPileBlock;
 
 public class TrashPileFeature extends Feature<NoneFeatureConfiguration> {
     public TrashPileFeature() {
@@ -24,7 +24,7 @@ public class TrashPileFeature extends Feature<NoneFeatureConfiguration> {
         BlockPos pos = context.origin();
 
         BlockState state = ModBlocks.TRASH_PILE.get().defaultBlockState()
-                .setValue(TrashPileBlock.WATERLOGGED, level.getFluidState(pos).is(Fluids.WATER));
+            .setValue(TrashPileBlock.WATERLOGGED, level.getFluidState(pos).is(Fluids.WATER));
         if (state.canSurvive(level, pos)) {
             level.setBlock(pos, state, Block.UPDATE_CLIENTS);
             flag = true;

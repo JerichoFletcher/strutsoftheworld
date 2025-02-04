@@ -41,14 +41,14 @@ public class TrashPileBlock extends WaterloggedTransparentBlock {
 
     @Override
     protected BlockState updateShape(
-            BlockState state,
-            LevelReader level,
-            ScheduledTickAccess tickAccess,
-            BlockPos pos,
-            Direction dir,
-            BlockPos neighborPos,
-            BlockState neighborState,
-            RandomSource rand
+        BlockState state,
+        LevelReader level,
+        ScheduledTickAccess tickAccess,
+        BlockPos pos,
+        Direction dir,
+        BlockPos neighborPos,
+        BlockState neighborState,
+        RandomSource rand
     ) {
         if (!canSurvive(state, level, pos)) {
             return Blocks.AIR.defaultBlockState();

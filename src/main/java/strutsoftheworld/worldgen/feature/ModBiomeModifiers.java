@@ -1,12 +1,12 @@
 package strutsoftheworld.worldgen.feature;
 
-import strutsoftheworld.StrutsOfTheWorldMod;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.data.worldgen.BootstrapContext;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraftforge.common.world.BiomeModifier;
 import net.minecraftforge.registries.ForgeRegistries;
+import strutsoftheworld.StrutsOfTheWorldMod;
 
 public class ModBiomeModifiers {
     /// TODO: Create biome modifier keys

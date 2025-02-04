@@ -1,18 +1,30 @@
 package strutsoftheworld.item;
 
-import strutsoftheworld.StrutsOfTheWorldMod;
+import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.Item;
+import net.minecraft.world.level.block.Block;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.ForgeRegistries;
+import net.minecraftforge.registries.RegistryObject;
+import strutsoftheworld.StrutsOfTheWorldMod;
+import strutsoftheworld.block.ModBlocks;
+
+import java.util.function.Supplier;
 
 public class ModItems {
     public static final DeferredRegister<Item> ITEMS = DeferredRegister.create(
-            ForgeRegistries.ITEMS,
-            StrutsOfTheWorldMod.MOD_ID
+        ForgeRegistries.ITEMS,
+        StrutsOfTheWorldMod.MOD_ID
     );
 
-    /// TODO: Add items
+    public static final RegistryObject<BlockItem> ROT_WEED_BUDS = registerBlockItem("rot_weed_buds", ModBlocks.ROT_WEED);
+
+    public static <T extends Block> RegistryObject<BlockItem> registerBlockItem(String name, Supplier<T> blockRegObj) {
+        return ITEMS.register(name, () -> new BlockItem(blockRegObj.get(), new Item.Properties()
+            .setId(ITEMS.key(name))
+        ));
+    }
 
     public static void register(IEventBus bus) {
         ITEMS.register(bus);

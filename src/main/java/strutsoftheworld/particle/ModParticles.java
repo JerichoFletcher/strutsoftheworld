@@ -1,6 +1,5 @@
 package strutsoftheworld.particle;
 
-import strutsoftheworld.StrutsOfTheWorldMod;
 import net.minecraft.core.particles.ParticleType;
 import net.minecraft.core.particles.SimpleParticleType;
 import net.minecraftforge.api.distmarker.Dist;
@@ -11,12 +10,13 @@ import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.ForgeRegistries;
 import net.minecraftforge.registries.RegistryObject;
+import strutsoftheworld.StrutsOfTheWorldMod;
 
 @Mod.EventBusSubscriber(modid = StrutsOfTheWorldMod.MOD_ID, bus = Mod.EventBusSubscriber.Bus.MOD, value = Dist.CLIENT)
 public class ModParticles {
     public static final DeferredRegister<ParticleType<?>> PARTICLES = DeferredRegister.create(
-            ForgeRegistries.PARTICLE_TYPES,
-            StrutsOfTheWorldMod.MOD_ID
+        ForgeRegistries.PARTICLE_TYPES,
+        StrutsOfTheWorldMod.MOD_ID
     );
 
     public static final RegistryObject<SimpleParticleType> WASTE_RAINDROP = register("waste_raindrop", false);

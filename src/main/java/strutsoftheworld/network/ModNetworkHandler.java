@@ -9,7 +9,6 @@ import strutsoftheworld.StrutsOfTheWorldMod;
 import strutsoftheworld.capability.StrutsWeatherCapability;
 
 import javax.annotation.Nullable;
-import java.util.Objects;
 
 public class ModNetworkHandler {
     private static final Logger LOGGER = LogUtils.getLogger();
@@ -26,9 +25,9 @@ public class ModNetworkHandler {
         }
 
         var channel = ChannelBuilder.named(CHANNEL_NAME)
-                .networkProtocolVersion(PROTOCOL_VERSION)
-                .acceptedVersions((s, v) -> v == PROTOCOL_VERSION)
-                .simpleChannel();
+            .networkProtocolVersion(PROTOCOL_VERSION)
+            .acceptedVersions((s, v) -> v == PROTOCOL_VERSION)
+            .simpleChannel();
         channel = StrutsWeatherCapability.Packet.registerMessage(channel);
         INSTANCE = channel.build();
 

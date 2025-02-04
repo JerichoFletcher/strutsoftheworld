@@ -2,7 +2,9 @@ package strutsoftheworld.capability;
 
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.level.Level;
-import net.minecraftforge.common.capabilities.*;
+import net.minecraftforge.common.capabilities.Capability;
+import net.minecraftforge.common.capabilities.CapabilityManager;
+import net.minecraftforge.common.capabilities.CapabilityToken;
 import net.minecraftforge.event.AttachCapabilitiesEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
@@ -11,7 +13,8 @@ import strutsoftheworld.dimension.ModDimensions;
 
 @Mod.EventBusSubscriber(modid = StrutsOfTheWorldMod.MOD_ID, bus = Mod.EventBusSubscriber.Bus.FORGE)
 public class ModCapabilities {
-    public static final Capability<IStrutsWeatherCapability> STRUTS_WEATHER = CapabilityManager.get(new CapabilityToken<>() {});
+    public static final Capability<IStrutsWeatherCapability> STRUTS_WEATHER = CapabilityManager.get(new CapabilityToken<>() {
+    });
 
     public static final ResourceLocation STRUTS_WEATHER_LOC = createLoc("struts_weather");
 

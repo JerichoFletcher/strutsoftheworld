@@ -12,8 +12,8 @@ import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
 
-/**@summary
- * Used for overriding what {@link ChunkRenderTypeSet}s are used for a base {@link BakedModel}.
+/**
+ * @summary Used for overriding what {@link ChunkRenderTypeSet}s are used for a base {@link BakedModel}.
  */
 public class OverrideRenderTypeSetBakedModel implements BakedModel {
     private final BakedModel base;

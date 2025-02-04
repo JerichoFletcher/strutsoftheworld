@@ -1,6 +1,12 @@
 package strutsoftheworld;
 
+import com.mojang.logging.LogUtils;
+import net.minecraftforge.eventbus.api.IEventBus;
+import net.minecraftforge.fml.common.Mod;
+import net.minecraftforge.fml.config.ModConfig;
 import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
+import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
+import org.slf4j.Logger;
 import strutsoftheworld.block.ModBlocks;
 import strutsoftheworld.item.ModCreativeModeTabs;
 import strutsoftheworld.item.ModItems;
@@ -8,12 +14,6 @@ import strutsoftheworld.network.ModNetworkHandler;
 import strutsoftheworld.particle.ModParticles;
 import strutsoftheworld.sound.ModSoundEvents;
 import strutsoftheworld.worldgen.feature.ModFeatures;
-import com.mojang.logging.LogUtils;
-import net.minecraftforge.eventbus.api.IEventBus;
-import net.minecraftforge.fml.common.Mod;
-import net.minecraftforge.fml.config.ModConfig;
-import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
-import org.slf4j.Logger;
 
 @Mod(StrutsOfTheWorldMod.MOD_ID)
 public class StrutsOfTheWorldMod {

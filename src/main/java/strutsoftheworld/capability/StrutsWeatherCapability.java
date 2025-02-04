@@ -78,9 +78,9 @@ public class StrutsWeatherCapability implements IStrutsWeatherCapability {
         public CompoundTag serializeNBT(HolderLookup.Provider registry) {
             var weather = inst.orElse(new StrutsWeatherCapability());
             return CompoundTag.builder()
-                    .putFloat(NBT_KEY_RAIN_STRENGTH, weather.getRainStrength())
-                    .putFloat(NBT_KEY_RAIN_STRENGTH_DRIFT, weather.getRainStrengthDrift())
-                    .build();
+                .putFloat(NBT_KEY_RAIN_STRENGTH, weather.getRainStrength())
+                .putFloat(NBT_KEY_RAIN_STRENGTH_DRIFT, weather.getRainStrengthDrift())
+                .build();
         }
 
         @Override
@@ -91,26 +91,26 @@ public class StrutsWeatherCapability implements IStrutsWeatherCapability {
     }
 
     public record Packet(
-            float rainStrength,
-            float rainStrengthDrift
+        float rainStrength,
+        float rainStrengthDrift
     ) {
         public static Packet of(IStrutsWeatherCapability instance) {
             return new Packet(
-                    instance.getRainStrength(),
-                    instance.getRainStrengthDrift()
+                instance.getRainStrength(),
+                instance.getRainStrengthDrift()
             );
         }
 
         public static SimpleChannel registerMessage(SimpleChannel channel) {
             return channel.messageBuilder(Packet.class, ModNetworkHandler.getAvailableMessageId())
-                    .encoder((msg, buf) -> {
-                        buf.writeFloat(msg.rainStrength());
-                        buf.writeFloat(msg.rainStrengthDrift());
-                    }).decoder(msg -> new Packet(
-                            msg.readFloat(),
-                            msg.readFloat()
-                    )).consumer(Packet::clientHandle)
-                    .add();
+                .encoder((msg, buf) -> {
+                    buf.writeFloat(msg.rainStrength());
+                    buf.writeFloat(msg.rainStrengthDrift());
+                }).decoder(msg -> new Packet(
+                    msg.readFloat(),
+                    msg.readFloat()
+                )).consumer(Packet::clientHandle)
+                .add();
         }
 
         public static void clientHandle(Packet packet, CustomPayloadEvent.Context context) {
