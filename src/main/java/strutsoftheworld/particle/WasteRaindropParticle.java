@@ -13,6 +13,8 @@ public class WasteRaindropParticle extends TextureSheetParticle {
     private static final int FADE_IN_AGE = 10;
     private static final int FADE_OUT_AGE = 110;
 
+    private final FacingCameraMode LOOKAT_XZ = (rot, cam, t) -> FacingCameraModeExtensions.lookAtXZ(this, rot, cam);
+
     public WasteRaindropParticle(ClientLevel level, double x, double y, double z, double dx, double dy, double dz) {
         super(level, x, y, z, dx, dy - 1.5f, dz);
         lifetime = LIFETIME;
@@ -25,7 +27,7 @@ public class WasteRaindropParticle extends TextureSheetParticle {
 
     @Override
     public FacingCameraMode getFacingCameraMode() {
-        return (rot, cam, t) -> FacingCameraModeExtensions.lookAtXZ(this, rot, cam);
+        return LOOKAT_XZ;
     }
 
     @Override
