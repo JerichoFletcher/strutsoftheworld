@@ -7,13 +7,13 @@ import net.minecraftforge.fml.config.ModConfig;
 import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 import org.slf4j.Logger;
-import strutsoftheworld.block.ModBlocks;
-import strutsoftheworld.item.ModCreativeModeTabs;
-import strutsoftheworld.item.ModItems;
-import strutsoftheworld.network.ModNetworkHandler;
-import strutsoftheworld.particle.ModParticles;
-import strutsoftheworld.sound.ModSoundEvents;
-import strutsoftheworld.worldgen.feature.ModFeatures;
+import strutsoftheworld.block.SOTWBlocks;
+import strutsoftheworld.item.SOTWCreativeModeTabs;
+import strutsoftheworld.item.SOTWItems;
+import strutsoftheworld.network.SOTWNetworkHandler;
+import strutsoftheworld.particle.SOTWParticles;
+import strutsoftheworld.sound.SOTWSoundEvents;
+import strutsoftheworld.worldgen.feature.SOTWFeatures;
 
 @Mod(StrutsOfTheWorldMod.MOD_ID)
 public class StrutsOfTheWorldMod {
@@ -26,19 +26,19 @@ public class StrutsOfTheWorldMod {
         bus.addListener(this::commonSetup);
 
         // Register mod contents
-        ModCreativeModeTabs.register(bus);
-        ModItems.register(bus);
-        ModBlocks.register(bus);
-        ModFeatures.register(bus);
+        SOTWCreativeModeTabs.register(bus);
+        SOTWItems.register(bus);
+        SOTWBlocks.register(bus);
+        SOTWFeatures.register(bus);
 
-        ModSoundEvents.register(bus);
-        ModParticles.register(bus);
+        SOTWSoundEvents.register(bus);
+        SOTWParticles.register(bus);
 
         // Register our config specification to the mod container
         context.registerConfig(ModConfig.Type.COMMON, Config.SPEC);
     }
 
     private void commonSetup(FMLCommonSetupEvent context) {
-        context.enqueueWork(ModNetworkHandler::register);
+        context.enqueueWork(SOTWNetworkHandler::register);
     }
 }

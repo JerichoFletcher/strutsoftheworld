@@ -7,7 +7,7 @@ import net.minecraft.core.particles.SimpleParticleType;
 import net.minecraft.world.level.material.Fluids;
 import strutsoftheworld.Globals;
 
-public class WasteRaindropParticle extends FaceCameraXZAxisParticle {
+public class WasteRaindropParticle extends TextureSheetParticle {
     private static final float QUAD_SCALE = 0.1f;
     private static final int LIFETIME = 120;
     private static final int FADE_IN_AGE = 10;
@@ -21,6 +21,11 @@ public class WasteRaindropParticle extends FaceCameraXZAxisParticle {
 
         var color = Globals.STRUTS_FLOOR_WATER_COLOR;
         setColor(color.r(), color.g(), color.b());
+    }
+
+    @Override
+    public FacingCameraMode getFacingCameraMode() {
+        return (rot, cam, t) -> FacingCameraModeExtensions.lookAtXZ(this, rot, cam);
     }
 
     @Override
@@ -50,7 +55,7 @@ public class WasteRaindropParticle extends FaceCameraXZAxisParticle {
 
         if (onGround) {
             remove();
-            level.addParticle(ModParticles.WASTE_RAINDROP_SPLASH.get(), x, y, z, 0, 0, 0);
+            level.addParticle(SOTWParticles.WASTE_RAINDROP_SPLASH.get(), x, y, z, 0, 0, 0);
             return;
         }
 

@@ -15,11 +15,11 @@ import net.minecraftforge.data.event.GatherDataEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 import strutsoftheworld.StrutsOfTheWorldMod;
-import strutsoftheworld.datagen.assets.ModModelProvider;
-import strutsoftheworld.datagen.assets.ModParticleDescriptionProvider;
-import strutsoftheworld.datagen.assets.ModSoundDefinitionsProvider;
+import strutsoftheworld.datagen.assets.SOTWModelProvider;
+import strutsoftheworld.datagen.assets.SOTWParticleDescriptionProvider;
+import strutsoftheworld.datagen.assets.SOTWSoundDefinitionsProvider;
 import strutsoftheworld.datagen.data.*;
-import strutsoftheworld.datagen.lang.ModEnUSLangProvider;
+import strutsoftheworld.datagen.lang.SOTWEnUSLangProvider;
 
 import java.util.Collections;
 import java.util.List;
@@ -36,23 +36,23 @@ public class DataGenerators {
         CompletableFuture<HolderLookup.Provider> lookupProv = event.getLookupProvider();
 
         // Register client-only providers
-        gen.addProvider(event.includeClient(), new ModModelProvider(out));
-        gen.addProvider(event.includeClient(), new ModParticleDescriptionProvider(out, efh));
+        gen.addProvider(event.includeClient(), new SOTWModelProvider(out));
+        gen.addProvider(event.includeClient(), new SOTWParticleDescriptionProvider(out, efh));
 
         // Register server providers
-        gen.addProvider(event.includeServer(), new ModRecipeProvider.Runner(out, lookupProv));
+        gen.addProvider(event.includeServer(), new SOTWRecipeProvider.Runner(out, lookupProv));
         gen.addProvider(event.includeServer(), new LootTableProvider(out, Collections.emptySet(),
             List.of(
-                new LootTableProvider.SubProviderEntry(ModBlockLootTableProvider::new, LootContextParamSets.BLOCK)
+                new LootTableProvider.SubProviderEntry(SOTWBlockLootTableProvider::new, LootContextParamSets.BLOCK)
             ), lookupProv)
         );
 
-        var blockTagProv = new ModBlockTagProvider(out, lookupProv, efh);
+        var blockTagProv = new SOTWBlockTagProvider(out, lookupProv, efh);
         gen.addProvider(event.includeServer(), blockTagProv);
-        gen.addProvider(event.includeServer(), new ModItemTagsProvider(out, lookupProv, blockTagProv.contentsGetter(), efh));
+        gen.addProvider(event.includeServer(), new SOTWItemTagsProvider(out, lookupProv, blockTagProv.contentsGetter(), efh));
 
-        gen.addProvider(event.includeServer(), new ModDatapackEntries(out, lookupProv));
-        gen.addProvider(event.includeServer(), new ModSoundDefinitionsProvider(out, efh));
+        gen.addProvider(event.includeServer(), new SOTWDatapackEntriesProvider(out, lookupProv));
+        gen.addProvider(event.includeServer(), new SOTWSoundDefinitionsProvider(out, efh));
 
         // Register pack metadata generator
         gen.addProvider(event.includeServer(), new PackMetadataGenerator(out)
@@ -70,6 +70,6 @@ public class DataGenerators {
         PackOutput out = gen.getPackOutput();
 
         // Register locale translation provides
-        gen.addProvider(event.includeClient(), new ModEnUSLangProvider(out, "en_us"));
+        gen.addProvider(event.includeClient(), new SOTWEnUSLangProvider(out, "en_us"));
     }
 }

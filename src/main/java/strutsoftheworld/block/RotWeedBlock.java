@@ -18,8 +18,8 @@ import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.VoxelShape;
 import net.minecraftforge.common.ForgeHooks;
 import strutsoftheworld.Globals;
-import strutsoftheworld.item.ModItems;
-import strutsoftheworld.tag.ModTags;
+import strutsoftheworld.item.SOTWItems;
+import strutsoftheworld.tag.SOTWTags;
 
 public class RotWeedBlock extends CropBlock implements BonemealableBlock {
     public static final MapCodec<RotWeedBlock> CODEC = simpleCodec(RotWeedBlock::new);
@@ -78,12 +78,12 @@ public class RotWeedBlock extends CropBlock implements BonemealableBlock {
 
     @Override
     protected ItemLike getBaseSeedId() {
-        return ModItems.ROT_WEED_BUDS.get();
+        return SOTWItems.ROT_WEED_BUDS.get();
     }
 
     @Override
     protected boolean mayPlaceOn(BlockState state, BlockGetter level, BlockPos pos) {
-        return state.is(ModTags.Blocks.ROT_WEED_PLACEABLE_ON);
+        return state.is(SOTWTags.Blocks.ROT_WEED_PLACEABLE_ON);
     }
 
     @Override

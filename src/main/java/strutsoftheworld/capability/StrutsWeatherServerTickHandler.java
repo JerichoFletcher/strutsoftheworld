@@ -13,8 +13,8 @@ import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.network.PacketDistributor;
 import org.slf4j.Logger;
 import strutsoftheworld.StrutsOfTheWorldMod;
-import strutsoftheworld.dimension.ModDimensions;
-import strutsoftheworld.network.ModNetworkHandler;
+import strutsoftheworld.dimension.SOTWDimensions;
+import strutsoftheworld.network.SOTWNetworkHandler;
 
 @Mod.EventBusSubscriber(modid = StrutsOfTheWorldMod.MOD_ID, bus = Mod.EventBusSubscriber.Bus.FORGE)
 public class StrutsWeatherServerTickHandler {
@@ -26,11 +26,11 @@ public class StrutsWeatherServerTickHandler {
         Level level = player.level();
 
         if (!level.isClientSide()
-            && level.dimension().location().equals(ModDimensions.STRUTS_OF_THE_WORLD.location())
+            && level.dimension().location().equals(SOTWDimensions.STRUTS_OF_THE_WORLD.location())
         ) {
-            level.getCapability(ModCapabilities.STRUTS_WEATHER).ifPresent(weather -> {
+            level.getCapability(SOTWCapabilities.STRUTS_WEATHER).ifPresent(weather -> {
                 LOGGER.info("Sending weather state to logged in player {}", player.getName().getString());
-                ModNetworkHandler.instance().send(
+                SOTWNetworkHandler.instance().send(
                     StrutsWeatherCapability.Packet.of(weather),
                     PacketDistributor.PLAYER.with((ServerPlayer) player)
                 );
@@ -44,7 +44,7 @@ public class StrutsWeatherServerTickHandler {
         ResourceKey<Level> levelTo = event.getTo();
 
         if (player instanceof ServerPlayer serverPlayer
-            && levelTo.location().equals(ModDimensions.STRUTS_OF_THE_WORLD.location())
+            && levelTo.location().equals(SOTWDimensions.STRUTS_OF_THE_WORLD.location())
         ) {
             var server = serverPlayer.getServer();
             if (server == null) return;
@@ -52,9 +52,9 @@ public class StrutsWeatherServerTickHandler {
             var level = serverPlayer.getServer().getLevel(levelTo);
             if (level == null) return;
 
-            level.getCapability(ModCapabilities.STRUTS_WEATHER).ifPresent(weather -> {
+            level.getCapability(SOTWCapabilities.STRUTS_WEATHER).ifPresent(weather -> {
                 LOGGER.info("Sending weather state to recently entered target dimension player {}", player.getName().getString());
-                ModNetworkHandler.instance().send(
+                SOTWNetworkHandler.instance().send(
                     StrutsWeatherCapability.Packet.of(weather),
                     PacketDistributor.PLAYER.with(serverPlayer)
                 );
@@ -68,9 +68,9 @@ public class StrutsWeatherServerTickHandler {
         RandomSource rand = level.getRandom();
 
         if (!level.isClientSide()
-            && level.dimension().location().equals(ModDimensions.STRUTS_OF_THE_WORLD.location())
+            && level.dimension().location().equals(SOTWDimensions.STRUTS_OF_THE_WORLD.location())
         ) {
-            level.getCapability(ModCapabilities.STRUTS_WEATHER).ifPresent(weather -> {
+            level.getCapability(SOTWCapabilities.STRUTS_WEATHER).ifPresent(weather -> {
                 weather.update();
 
                 if (rand.nextFloat() <= weather.getRainStrengthDriftChangeProbability()) {
@@ -78,7 +78,7 @@ public class StrutsWeatherServerTickHandler {
                     float newRainStrengthDrift = weather.getRainStrengthDrift() + rainStrengthDriftChange;
                     weather.setRainStrengthDrift(newRainStrengthDrift);
 
-                    ModNetworkHandler.instance().send(
+                    SOTWNetworkHandler.instance().send(
                         StrutsWeatherCapability.Packet.of(weather),
                         PacketDistributor.DIMENSION.with(level.dimension())
                     );

@@ -12,9 +12,10 @@ import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 import org.slf4j.Logger;
 import strutsoftheworld.StrutsOfTheWorldMod;
-import strutsoftheworld.block.ModBlocks;
+import strutsoftheworld.block.SOTWBlocks;
 
 import java.util.Map;
+import java.util.concurrent.atomic.AtomicInteger;
 
 @Mod.EventBusSubscriber(modid = StrutsOfTheWorldMod.MOD_ID, bus = Mod.EventBusSubscriber.Bus.MOD, value = Dist.CLIENT)
 public class ModelEventHandler {
@@ -24,30 +25,31 @@ public class ModelEventHandler {
     public static void modifyBakedModels(ModelEvent.ModifyBakingResult event) {
         var models = event.getResults().blockStateModels();
 
-        overrideWithRenderType(ModBlocks.ROT_WEED.getId(), RenderType.cutout(), models);
+        overrideWithRenderType(SOTWBlocks.ROT_WEED.getId(), models, RenderType.cutout());
     }
 
     private static void overrideWithRenderType(
         ResourceLocation targetBaseId,
-        RenderType overrideType,
-        Map<ModelResourceLocation, BakedModel> modelMap
+        Map<ModelResourceLocation, BakedModel> modelMap,
+        RenderType... overrideTypes
     ) {
-        overrideWithRenderType(targetBaseId, ChunkRenderTypeSet.of(overrideType), modelMap);
+        overrideWithRenderType(targetBaseId, modelMap, ChunkRenderTypeSet.of(overrideTypes));
     }
 
     private static void overrideWithRenderType(
         ResourceLocation targetBaseId,
-        ChunkRenderTypeSet overrideTypeSet,
-        Map<ModelResourceLocation, BakedModel> modelMap
+        Map<ModelResourceLocation, BakedModel> modelMap,
+        ChunkRenderTypeSet overrideTypeSet
     ) {
-        var count = modelMap.keySet().stream()
+        final AtomicInteger count = new AtomicInteger();
+        modelMap.keySet().stream()
             .filter(ml -> pathBeginsWith(ml.id(), targetBaseId))
-            .map(ml -> {
+            .forEach(ml -> {
                 modelMap.compute(ml, (k, baseModel) -> new OverrideRenderTypeSetBakedModel(baseModel, overrideTypeSet));
                 LOGGER.debug("Applied override render type for model {}", ml);
-                return 0;
-            }).count();
-        if (count == 0) {
+                count.getAndIncrement();
+            });
+        if (count.get() == 0) {
             throw new IllegalArgumentException("No models associated with " + targetBaseId);
         }
         LOGGER.debug("Finished applying overrides for {} models associated with {}", count, targetBaseId);

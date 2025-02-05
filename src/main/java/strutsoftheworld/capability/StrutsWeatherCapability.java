@@ -13,7 +13,7 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.slf4j.Logger;
 import strutsoftheworld.Globals;
-import strutsoftheworld.network.ModNetworkHandler;
+import strutsoftheworld.network.SOTWNetworkHandler;
 
 public class StrutsWeatherCapability implements IStrutsWeatherCapability {
     private float rainStrength = 0.1f;
@@ -67,7 +67,7 @@ public class StrutsWeatherCapability implements IStrutsWeatherCapability {
 
         @Override
         public @NotNull <T> LazyOptional<T> getCapability(@NotNull Capability<T> cap, @Nullable Direction side) {
-            return ModCapabilities.STRUTS_WEATHER.orEmpty(cap, inst);
+            return SOTWCapabilities.STRUTS_WEATHER.orEmpty(cap, inst);
         }
 
         public void invalidate() {
@@ -102,7 +102,7 @@ public class StrutsWeatherCapability implements IStrutsWeatherCapability {
         }
 
         public static SimpleChannel registerMessage(SimpleChannel channel) {
-            return channel.messageBuilder(Packet.class, ModNetworkHandler.getAvailableMessageId())
+            return channel.messageBuilder(Packet.class, SOTWNetworkHandler.getAvailableMessageId())
                 .encoder((msg, buf) -> {
                     buf.writeFloat(msg.rainStrength());
                     buf.writeFloat(msg.rainStrengthDrift());

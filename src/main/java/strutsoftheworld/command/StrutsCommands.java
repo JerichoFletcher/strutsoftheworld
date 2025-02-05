@@ -12,10 +12,10 @@ import net.minecraft.core.registries.Registries;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceKey;
 import net.minecraftforge.network.PacketDistributor;
-import strutsoftheworld.capability.ModCapabilities;
+import strutsoftheworld.capability.SOTWCapabilities;
 import strutsoftheworld.capability.StrutsWeatherCapability;
-import strutsoftheworld.dimension.ModDimensions;
-import strutsoftheworld.network.ModNetworkHandler;
+import strutsoftheworld.dimension.SOTWDimensions;
+import strutsoftheworld.network.SOTWNetworkHandler;
 
 public class StrutsCommands {
     public static final String WEATHER_GET_RAIN_STRENGTH_KEY = "strutsoftheworld.commands.struts.weather.rain_strength.get.success";
@@ -45,11 +45,11 @@ public class StrutsCommands {
     }
 
     private static int getWeatherRainStrength(CommandSourceStack source) throws CommandSyntaxException {
-        var dimKey = ResourceKey.create(Registries.DIMENSION, ModDimensions.STRUTS_OF_THE_WORLD.location());
+        var dimKey = ResourceKey.create(Registries.DIMENSION, SOTWDimensions.STRUTS_OF_THE_WORLD.location());
         var level = source.getServer().getLevel(dimKey);
 
         if (level != null) {
-            level.getCapability(ModCapabilities.STRUTS_WEATHER).ifPresent(weather -> {
+            level.getCapability(SOTWCapabilities.STRUTS_WEATHER).ifPresent(weather -> {
                 source.sendSuccess(() -> Component.translatable(WEATHER_GET_RAIN_STRENGTH_KEY, weather.getRainStrength()), true);
             });
         } else throw DIMENSION_NOT_FOUND.create();
@@ -58,15 +58,15 @@ public class StrutsCommands {
     }
 
     private static int setWeatherRainStrength(CommandSourceStack source, float targetStrength) throws CommandSyntaxException {
-        var dimKey = ResourceKey.create(Registries.DIMENSION, ModDimensions.STRUTS_OF_THE_WORLD.location());
+        var dimKey = ResourceKey.create(Registries.DIMENSION, SOTWDimensions.STRUTS_OF_THE_WORLD.location());
         var level = source.getServer().getLevel(dimKey);
 
         if (level != null) {
-            level.getCapability(ModCapabilities.STRUTS_WEATHER).ifPresent(weather -> {
+            level.getCapability(SOTWCapabilities.STRUTS_WEATHER).ifPresent(weather -> {
                 weather.setRainStrength(targetStrength);
                 source.sendSuccess(() -> Component.translatable(WEATHER_SET_RAIN_STRENGTH_KEY, weather.getRainStrength()), true);
 
-                ModNetworkHandler.instance().send(
+                SOTWNetworkHandler.instance().send(
                     StrutsWeatherCapability.Packet.of(weather),
                     PacketDistributor.DIMENSION.with(level.dimension())
                 );
