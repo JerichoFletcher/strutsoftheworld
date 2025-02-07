@@ -18,7 +18,7 @@ import strutsoftheworld.dimension.SOTWDimensions;
 import strutsoftheworld.particle.SOTWParticles;
 
 @Mod.EventBusSubscriber(modid = StrutsOfTheWorldMod.MOD_ID, bus = Mod.EventBusSubscriber.Bus.FORGE)
-public class StrutsWeatherClientTickHandler {
+public class StrutsWeatherClientEventHandler {
     private static final Logger LOGGER = LogUtils.getLogger();
 
     @SubscribeEvent

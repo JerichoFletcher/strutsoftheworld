@@ -1,0 +1,13 @@
+{
+  "package": "strutsoftheworld.mixin",
+  "mixins": [],
+  "client": [],
+  "server": [],
+  "required": true,
+  "refmap": "mixins.strutsoftheworld.refmap.json",
+  "minVersion": "0.8.3",
+  "compatibilityLevel": "JAVA_21",
+  "injectors": {
+    "defaultRequire": 1
+  }
+}

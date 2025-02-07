@@ -4,6 +4,7 @@ import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.client.particle.*;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.particles.SimpleParticleType;
+import net.minecraft.util.ARGB;
 import net.minecraft.world.level.material.Fluids;
 import strutsoftheworld.Globals;
 
@@ -21,8 +22,8 @@ public class WasteRaindropParticle extends TextureSheetParticle {
         quadSize = 0f;
         gravity = 0.06f;
 
-        var color = Globals.STRUTS_FLOOR_WATER_COLOR;
-        setColor(color.r(), color.g(), color.b());
+        var color = ARGB.vector3fFromRGB24(Globals.STRUTS_FLOOR_WATER_COLOR);
+        setColor(color.x, color.y, color.z);
     }
 
     @Override

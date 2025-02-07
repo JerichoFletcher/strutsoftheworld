@@ -6,6 +6,7 @@ import net.minecraft.client.particle.ParticleProvider;
 import net.minecraft.client.particle.SpriteSet;
 import net.minecraft.client.particle.WaterDropParticle;
 import net.minecraft.core.particles.SimpleParticleType;
+import net.minecraft.util.ARGB;
 import strutsoftheworld.Globals;
 
 public class WasteRaindropSplashParticle extends WaterDropParticle {
@@ -19,8 +20,8 @@ public class WasteRaindropSplashParticle extends WaterDropParticle {
             zd = dz;
         }
 
-        var color = Globals.STRUTS_FLOOR_WATER_COLOR;
-        setColor(color.r(), color.g(), color.b());
+        var color = ARGB.vector3fFromRGB24(Globals.STRUTS_FLOOR_WATER_COLOR);
+        setColor(color.x, color.y, color.z);
     }
 
     public static class Provider implements ParticleProvider<SimpleParticleType> {

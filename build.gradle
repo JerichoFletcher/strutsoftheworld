@@ -3,6 +3,7 @@ plugins {
     id 'idea'
     id 'maven-publish'
     id 'net.minecraftforge.gradle' version '[6.0.24,6.2)'
+    id 'org.spongepowered.mixin' version '0.7.+'
     id 'org.parchmentmc.librarian.forgegradle' version '1.+'
 }
 
@@ -142,6 +143,19 @@ dependencies {
     // For more info:
     // http://www.gradle.org/docs/current/userguide/artifact_dependencies_tutorial.html
     // http://www.gradle.org/docs/current/userguide/dependency_management.html
+
+    annotationProcessor "org.spongepowered:mixin:${mixin_version}:processor"
+}
+
+mixin {
+    // Refmaps and configs
+    add sourceSets.main, "mixins.${mod_id}.refmap.json"
+    config "mixins.${mod_id}.json"
+
+    // Options
+    debug.verbose = true
+    debug.export = true
+    dumpTargetOnFailure = true
 }
 
 // This block of code expands all declared replace properties in the specified resource targets.
@@ -155,10 +169,13 @@ tasks.named('processResources', ProcessResources).configure {
             loader_version_range: loader_version_range,
             mod_id: mod_id, mod_name: mod_name, mod_license: mod_license, mod_version: mod_version,
             mod_authors: mod_authors, mod_description: mod_description,
+            mixin_version: mixin_version,
     ]
     inputs.properties replaceProperties
 
-    filesMatching(['META-INF/mods.toml']) {
+    filesMatching([
+            'META-INF/mods.toml',
+    ]) {
         expand replaceProperties + [project: project]
     }
 }
@@ -193,7 +210,7 @@ publishing {
 
 tasks.withType(JavaCompile).configureEach {
     options.encoding = 'UTF-8' // Use the UTF-8 charset for Java compilation
-    options.incremental = true
+    // options.incremental = true
 }
 
 // IntelliJ no longer downloads javadocs and sources by default.

@@ -9,6 +9,7 @@ import net.minecraft.util.valueproviders.ConstantInt;
 import net.minecraft.world.level.dimension.BuiltinDimensionTypes;
 import net.minecraft.world.level.dimension.DimensionType;
 import strutsoftheworld.StrutsOfTheWorldMod;
+import strutsoftheworld.client.SOTWDimensionSpecialEffects;
 
 import java.util.OptionalLong;
 
@@ -29,7 +30,7 @@ public class SOTWDimensionTypes {
             256,
             256,
             BlockTags.INFINIBURN_OVERWORLD,
-            BuiltinDimensionTypes.NETHER_EFFECTS,
+            SOTWDimensionSpecialEffects.STRUTS_EFFECTS,
             0f,
             new DimensionType.MonsterSettings(
                 false,
