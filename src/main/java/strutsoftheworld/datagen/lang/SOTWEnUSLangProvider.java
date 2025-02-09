@@ -40,6 +40,8 @@ public class SOTWEnUSLangProvider extends LanguageProvider {
         // Command messages
         add(StrutsCommands.WEATHER_GET_RAIN_STRENGTH_KEY, "Current Struts rain strength is %s");
         add(StrutsCommands.WEATHER_SET_RAIN_STRENGTH_KEY, "Set Struts rain strength to %s");
+        add(StrutsCommands.WEATHER_GET_RAIN_STRENGTH_DRIFT_KEY, "Current Struts rain strength drift is %s");
+        add(StrutsCommands.WEATHER_SET_RAIN_STRENGTH_DRIFT_KEY, "Set Struts rain strength drift to %s");
         add(StrutsCommands.DIMENSION_NOT_FOUND_KEY, "Dimension not found");
     }
 

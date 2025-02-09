@@ -1,20 +1,17 @@
-package strutsoftheworld.client;
+package strutsoftheworld.dimension;
 
-import com.mojang.logging.LogUtils;
 import net.minecraft.client.renderer.DimensionSpecialEffects;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.phys.Vec3;
+import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.client.event.RegisterDimensionSpecialEffectsEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
-import org.slf4j.Logger;
 import strutsoftheworld.StrutsOfTheWorldMod;
 import strutsoftheworld.capability.StrutsWeatherCapability;
 
-@Mod.EventBusSubscriber(modid = StrutsOfTheWorldMod.MOD_ID, bus = Mod.EventBusSubscriber.Bus.MOD)
+@Mod.EventBusSubscriber(modid = StrutsOfTheWorldMod.MOD_ID, bus = Mod.EventBusSubscriber.Bus.MOD, value = Dist.CLIENT)
 public class SOTWDimensionSpecialEffects {
-    private static final Logger LOGGER = LogUtils.getLogger();
-
     public static final ResourceLocation STRUTS_EFFECTS = createLoc("struts");
 
     private static ResourceLocation createLoc(String name) {

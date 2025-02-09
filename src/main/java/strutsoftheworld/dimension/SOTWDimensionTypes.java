@@ -6,10 +6,8 @@ import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.tags.BlockTags;
 import net.minecraft.util.valueproviders.ConstantInt;
-import net.minecraft.world.level.dimension.BuiltinDimensionTypes;
 import net.minecraft.world.level.dimension.DimensionType;
 import strutsoftheworld.StrutsOfTheWorldMod;
-import strutsoftheworld.client.SOTWDimensionSpecialEffects;
 
 import java.util.OptionalLong;
 

@@ -16,22 +16,26 @@ import strutsoftheworld.Globals;
 import strutsoftheworld.network.SOTWNetworkHandler;
 
 public class StrutsWeatherCapability implements IStrutsWeatherCapability {
+    public static final float MAX_RAIN_STRENGTH_DRIFT = 0.0007f;
+    public static final float MAX_RAIN_STRENGTH_DRIFT_CHANGE = 0.0001f;
+    public static final float RAIN_STRENGTH_DRIFT_CHANGE_PROBABILITY = 0.02f;
+
     private float rainStrength = 0.1f;
     private float rainStrengthDrift = 0.0f;
 
     @Override
     public float getMaxRainStrengthDrift() {
-        return 0.001f;
+        return MAX_RAIN_STRENGTH_DRIFT;
     }
 
     @Override
     public float getMaxRainStrengthDriftChange() {
-        return 0.0001f;
+        return MAX_RAIN_STRENGTH_DRIFT_CHANGE;
     }
 
     @Override
     public float getRainStrengthDriftChangeProbability() {
-        return 0.02f;
+        return RAIN_STRENGTH_DRIFT_CHANGE_PROBABILITY;
     }
 
     @Override
