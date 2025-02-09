@@ -18,11 +18,11 @@ import strutsoftheworld.dimension.SOTWDimensions;
 import strutsoftheworld.network.SOTWNetworkHandler;
 
 public class StrutsCommands {
-    public static final String WEATHER_GET_RAIN_STRENGTH_KEY = "strutsoftheworld.commands.struts.weather.rain_strength.get.success";
-    public static final String WEATHER_SET_RAIN_STRENGTH_KEY = "strutsoftheworld.commands.struts.weather.rain_strength.set.success";
-    public static final String WEATHER_GET_RAIN_STRENGTH_DRIFT_KEY = "strutsoftheworld.commands.struts.weather.rain_strength_drift.get.success";
-    public static final String WEATHER_SET_RAIN_STRENGTH_DRIFT_KEY = "strutsoftheworld.commands.struts.weather.rain_strength_drift.set.success";
-    public static final String DIMENSION_NOT_FOUND_KEY = "strutsoftheworld.commands.struts.dim_not_found";
+    public static final String WEATHER_GET_RAIN_STRENGTH_KEY = "commands.strutsoftheworld.struts.weather.rain_strength.get.success";
+    public static final String WEATHER_SET_RAIN_STRENGTH_KEY = "commands.strutsoftheworld.struts.weather.rain_strength.set.success";
+    public static final String WEATHER_GET_RAIN_STRENGTH_DRIFT_KEY = "commands.strutsoftheworld.struts.weather.rain_strength_drift.get.success";
+    public static final String WEATHER_SET_RAIN_STRENGTH_DRIFT_KEY = "commands.strutsoftheworld.struts.weather.rain_strength_drift.set.success";
+    public static final String DIMENSION_NOT_FOUND_KEY = "commands.strutsoftheworld.struts.dim_not_found";
 
     private static final SimpleCommandExceptionType DIMENSION_NOT_FOUND = new SimpleCommandExceptionType(Component.translatable(DIMENSION_NOT_FOUND_KEY));
 
@@ -82,10 +82,7 @@ public class StrutsCommands {
                 weather.setRainStrength(targetStrength);
                 source.sendSuccess(() -> Component.translatable(WEATHER_SET_RAIN_STRENGTH_KEY, weather.getRainStrength()), true);
 
-                SOTWNetworkHandler.instance().send(
-                    StrutsWeatherCapability.Packet.of(weather),
-                    PacketDistributor.DIMENSION.with(level.dimension())
-                );
+                StrutsWeatherCapability.Packet.send(weather, PacketDistributor.DIMENSION.with(level.dimension()));
             });
         } else throw DIMENSION_NOT_FOUND.create();
 
@@ -114,10 +111,7 @@ public class StrutsCommands {
                 weather.setRainStrengthDrift(targetStrengthDrift);
                 source.sendSuccess(() -> Component.translatable(WEATHER_SET_RAIN_STRENGTH_DRIFT_KEY, weather.getRainStrengthDrift()), true);
 
-                SOTWNetworkHandler.instance().send(
-                    StrutsWeatherCapability.Packet.of(weather),
-                    PacketDistributor.DIMENSION.with(level.dimension())
-                );
+                StrutsWeatherCapability.Packet.send(weather, PacketDistributor.DIMENSION.with(level.dimension()));
             });
         } else throw DIMENSION_NOT_FOUND.create();
 

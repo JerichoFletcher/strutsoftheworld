@@ -8,6 +8,7 @@ import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.capabilities.ICapabilitySerializable;
 import net.minecraftforge.common.util.LazyOptional;
 import net.minecraftforge.event.network.CustomPayloadEvent;
+import net.minecraftforge.network.PacketDistributor;
 import net.minecraftforge.network.SimpleChannel;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -15,7 +16,7 @@ import org.slf4j.Logger;
 import strutsoftheworld.Globals;
 import strutsoftheworld.network.SOTWNetworkHandler;
 
-public class StrutsWeatherCapability implements IStrutsWeatherCapability {
+public class StrutsWeatherCapability {
     public static final float MAX_RAIN_STRENGTH_DRIFT = 0.0007f;
     public static final float MAX_RAIN_STRENGTH_DRIFT_CHANGE = 0.0001f;
     public static final float RAIN_STRENGTH_DRIFT_CHANGE_PROBABILITY = 0.02f;
@@ -23,49 +24,41 @@ public class StrutsWeatherCapability implements IStrutsWeatherCapability {
     private float rainStrength = 0.1f;
     private float rainStrengthDrift = 0.0f;
 
-    @Override
     public float getMaxRainStrengthDrift() {
         return MAX_RAIN_STRENGTH_DRIFT;
     }
 
-    @Override
     public float getMaxRainStrengthDriftChange() {
         return MAX_RAIN_STRENGTH_DRIFT_CHANGE;
     }
 
-    @Override
     public float getRainStrengthDriftChangeProbability() {
         return RAIN_STRENGTH_DRIFT_CHANGE_PROBABILITY;
     }
 
-    @Override
     public float getRainStrength() {
         return rainStrength;
     }
 
-    @Override
     public float getRainStrengthDrift() {
         return rainStrengthDrift;
     }
 
-    @Override
     public void setRainStrength(float value) {
         rainStrength = Math.clamp(value, 0f, 1f);
     }
 
-    @Override
     public void setRainStrengthDrift(float value) {
         this.rainStrengthDrift = Math.clamp(value, -getMaxRainStrengthDrift(), getMaxRainStrengthDrift());
     }
 
-    @Override
     public void update() {
         float rainStrength = getRainStrength();
         setRainStrength(rainStrength + getRainStrengthDrift());
     }
 
     public static class Provider implements ICapabilitySerializable<CompoundTag> {
-        private static final LazyOptional<IStrutsWeatherCapability> inst = LazyOptional.of(StrutsWeatherCapability::new);
+        private static final LazyOptional<StrutsWeatherCapability> inst = LazyOptional.of(StrutsWeatherCapability::new);
         private static final String NBT_KEY_RAIN_STRENGTH = "rain_strength";
         private static final String NBT_KEY_RAIN_STRENGTH_DRIFT = "rain_strength_drift";
 
@@ -98,11 +91,18 @@ public class StrutsWeatherCapability implements IStrutsWeatherCapability {
         float rainStrength,
         float rainStrengthDrift
     ) {
-        public static Packet of(IStrutsWeatherCapability instance) {
-            return new Packet(
-                instance.getRainStrength(),
-                instance.getRainStrengthDrift()
+        private Packet(StrutsWeatherCapability capInstance) {
+            this(
+                capInstance.getRainStrength(),
+                capInstance.getRainStrengthDrift()
             );
+        }
+
+        private static void clientHandle(Packet packet, CustomPayloadEvent.Context context) {
+            if (context.isClientSide()) {
+                context.enqueueWork(() -> ClientData.set(packet));
+            }
+            context.setPacketHandled(true);
         }
 
         public static SimpleChannel registerMessage(SimpleChannel channel) {
@@ -117,18 +117,12 @@ public class StrutsWeatherCapability implements IStrutsWeatherCapability {
                 .add();
         }
 
-        public static void clientHandle(Packet packet, CustomPayloadEvent.Context context) {
-            if (context.isClientSide()) {
-                context.enqueueWork(() -> {
-                    ClientData.set(packet);
-                });
-            }
-            context.setPacketHandled(true);
+        public static void send(StrutsWeatherCapability capInstance, PacketDistributor.PacketTarget target) {
+            SOTWNetworkHandler.instance().send(new Packet(capInstance), target);
         }
     }
 
     public static class ClientData {
-        private static final Logger LOGGER = LogUtils.getLogger();
         private static float rainStrength;
         private static float rainStrengthDrift;
 

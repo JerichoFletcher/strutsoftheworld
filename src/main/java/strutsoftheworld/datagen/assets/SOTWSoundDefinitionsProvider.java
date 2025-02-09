@@ -20,7 +20,7 @@ public class SOTWSoundDefinitionsProvider extends SoundDefinitionsProvider {
     @Override
     public void registerSounds() {
         add(SOTWSoundEvents.AMBIENT_STRUTS_FLOOR_LOOP, definition()
-            .with(modSound("ambient/struts_floor_loop").volume(0.75f).stream())
+            .with(modSound("ambient/struts_floor_loop").volume(0.8f).stream())
         );
         add(SOTWSoundEvents.MUSIC_BIOME_STRUTS_FLOOR, definition()
             .with(modSound("music/game/struts/rot_weed").volume(0.5f).stream())

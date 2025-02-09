@@ -30,10 +30,7 @@ public class StrutsWeatherServerEventHandler {
         ) {
             level.getCapability(SOTWCapabilities.STRUTS_WEATHER).ifPresent(weather -> {
                 LOGGER.info("Sending weather state to logged in player {}", player.getName().getString());
-                SOTWNetworkHandler.instance().send(
-                    StrutsWeatherCapability.Packet.of(weather),
-                    PacketDistributor.PLAYER.with((ServerPlayer) player)
-                );
+                StrutsWeatherCapability.Packet.send(weather, PacketDistributor.PLAYER.with((ServerPlayer) player));
             });
         }
     }
@@ -54,10 +51,7 @@ public class StrutsWeatherServerEventHandler {
 
             level.getCapability(SOTWCapabilities.STRUTS_WEATHER).ifPresent(weather -> {
                 LOGGER.info("Sending weather state to recently entered target dimension player {}", player.getName().getString());
-                SOTWNetworkHandler.instance().send(
-                    StrutsWeatherCapability.Packet.of(weather),
-                    PacketDistributor.PLAYER.with(serverPlayer)
-                );
+                StrutsWeatherCapability.Packet.send(weather, PacketDistributor.PLAYER.with(serverPlayer));
             });
         }
     }
@@ -78,10 +72,7 @@ public class StrutsWeatherServerEventHandler {
                     float newRainStrengthDrift = weather.getRainStrengthDrift() + rainStrengthDriftChange;
                     weather.setRainStrengthDrift(newRainStrengthDrift);
 
-                    SOTWNetworkHandler.instance().send(
-                        StrutsWeatherCapability.Packet.of(weather),
-                        PacketDistributor.DIMENSION.with(level.dimension())
-                    );
+                    StrutsWeatherCapability.Packet.send(weather, PacketDistributor.DIMENSION.with(level.dimension()));
                 }
             });
         }

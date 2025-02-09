@@ -37,7 +37,7 @@ public class SOTWBiomes {
                     Globals.STRUTS_FLOOR_WATER_COLOR,
                     Globals.STRUTS_FLOOR_WATER_FOG_COLOR,
                     Globals.STRUTS_FLOOR_SKY_COLOR)
-                .ambientLoopSound(SOTWSoundEvents.AMBIENT_STRUTS_FLOOR_LOOP.getHolder().orElseThrow())
+                // .ambientLoopSound(SOTWSoundEvents.AMBIENT_STRUTS_FLOOR_LOOP.getHolder().orElseThrow())
                 .backgroundMusic(SOTWMusics.BIOME_STRUTS_FLOOR)
                 .build()
             ).build()

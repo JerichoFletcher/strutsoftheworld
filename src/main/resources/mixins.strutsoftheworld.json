@@ -1,7 +1,9 @@
 {
   "package": "strutsoftheworld.mixin",
   "mixins": [],
-  "client": [],
+  "client": [
+    "MixinLocalPlayer"
+  ],
   "server": [],
   "required": true,
   "refmap": "mixins.strutsoftheworld.refmap.json",

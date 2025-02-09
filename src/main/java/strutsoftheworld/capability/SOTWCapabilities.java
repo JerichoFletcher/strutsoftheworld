@@ -13,8 +13,7 @@ import strutsoftheworld.dimension.SOTWDimensions;
 
 @Mod.EventBusSubscriber(modid = StrutsOfTheWorldMod.MOD_ID, bus = Mod.EventBusSubscriber.Bus.FORGE)
 public class SOTWCapabilities {
-    public static final Capability<IStrutsWeatherCapability> STRUTS_WEATHER = CapabilityManager.get(new CapabilityToken<>() {
-    });
+    public static final Capability<StrutsWeatherCapability> STRUTS_WEATHER = CapabilityManager.get(new CapabilityToken<>() {});
 
     public static final ResourceLocation STRUTS_WEATHER_LOC = createLoc("struts_weather");
 
