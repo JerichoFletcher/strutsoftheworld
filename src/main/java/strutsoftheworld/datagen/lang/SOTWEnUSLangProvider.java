@@ -14,8 +14,8 @@ import strutsoftheworld.item.SOTWItems;
 import java.util.function.Supplier;
 
 public class SOTWEnUSLangProvider extends LanguageProvider {
-    public SOTWEnUSLangProvider(PackOutput out, String locale) {
-        super(out, StrutsOfTheWorldMod.MOD_ID, locale);
+    public SOTWEnUSLangProvider(PackOutput out) {
+        super(out, StrutsOfTheWorldMod.MOD_ID, "en_us");
     }
 
     private void addBlockAndItem(Supplier<? extends Block> block, String name) {

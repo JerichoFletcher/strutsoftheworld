@@ -1,6 +1,5 @@
 package strutsoftheworld.capability;
 
-import com.mojang.logging.LogUtils;
 import net.minecraft.core.Direction;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.nbt.CompoundTag;
@@ -12,8 +11,7 @@ import net.minecraftforge.network.PacketDistributor;
 import net.minecraftforge.network.SimpleChannel;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
-import org.slf4j.Logger;
-import strutsoftheworld.Globals;
+import strutsoftheworld.Config;
 import strutsoftheworld.network.SOTWNetworkHandler;
 
 public class StrutsWeatherCapability {
@@ -98,7 +96,7 @@ public class StrutsWeatherCapability {
             );
         }
 
-        private static void clientHandle(Packet packet, CustomPayloadEvent.Context context) {
+        private static void handle(Packet packet, CustomPayloadEvent.Context context) {
             if (context.isClientSide()) {
                 context.enqueueWork(() -> ClientData.set(packet));
             }
@@ -110,10 +108,12 @@ public class StrutsWeatherCapability {
                 .encoder((msg, buf) -> {
                     buf.writeFloat(msg.rainStrength());
                     buf.writeFloat(msg.rainStrengthDrift());
-                }).decoder(msg -> new Packet(
+                })
+                .decoder(msg -> new Packet(
                     msg.readFloat(),
                     msg.readFloat()
-                )).consumer(Packet::clientHandle)
+                ))
+                .consumer(Packet::handle)
                 .add();
         }
 
@@ -123,6 +123,8 @@ public class StrutsWeatherCapability {
     }
 
     public static class ClientData {
+        private static final float RAIN_PARTICLE_P_MULT = 0.375f;
+
         private static float rainStrength;
         private static float rainStrengthDrift;
 
@@ -144,7 +146,7 @@ public class StrutsWeatherCapability {
         }
 
         public static float getRainParticleProbability() {
-            return rainStrength * Globals.STRUTS_ADD_RAIN_PARTICLE_P_ON_MAX_STRENGTH;
+            return RAIN_PARTICLE_P_MULT * rainStrength * Config.CLIENT.strutsRainDensity;
         }
     }
 }

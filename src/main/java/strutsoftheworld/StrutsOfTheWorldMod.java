@@ -34,8 +34,8 @@ public class StrutsOfTheWorldMod {
         SOTWSoundEvents.register(bus);
         SOTWParticles.register(bus);
 
-        // Register our config specification to the mod container
-        context.registerConfig(ModConfig.Type.COMMON, Config.SPEC);
+        // Register config specs to the mod container
+        context.registerConfig(ModConfig.Type.CLIENT, Config.CLIENT_SPEC);
     }
 
     private void commonSetup(FMLCommonSetupEvent context) {

@@ -21,9 +21,11 @@ public class SOTWItems {
     public static final RegistryObject<BlockItem> ROT_WEED_BUDS = registerBlockItem("rot_weed_buds", SOTWBlocks.ROT_WEED);
 
     public static <T extends Block> RegistryObject<BlockItem> registerBlockItem(String name, Supplier<T> blockRegObj) {
-        return ITEMS.register(name, () -> new BlockItem(blockRegObj.get(), new Item.Properties()
-            .setId(ITEMS.key(name))
-        ));
+        return ITEMS.register(name, () -> new BlockItem(blockRegObj.get(), ofId(name)));
+    }
+
+    private static Item.Properties ofId(String name) {
+        return new Item.Properties().setId(ITEMS.key(name));
     }
 
     public static void register(IEventBus bus) {

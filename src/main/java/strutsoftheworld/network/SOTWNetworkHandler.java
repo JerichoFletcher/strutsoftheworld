@@ -2,6 +2,7 @@ package strutsoftheworld.network;
 
 import com.mojang.logging.LogUtils;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraftforge.network.Channel;
 import net.minecraftforge.network.ChannelBuilder;
 import net.minecraftforge.network.SimpleChannel;
 import org.slf4j.Logger;
@@ -26,7 +27,7 @@ public class SOTWNetworkHandler {
 
         var channel = ChannelBuilder.named(CHANNEL_NAME)
             .networkProtocolVersion(PROTOCOL_VERSION)
-            .acceptedVersions((s, v) -> v == PROTOCOL_VERSION)
+            .acceptedVersions(Channel.VersionTest.exact(PROTOCOL_VERSION))
             .simpleChannel();
         channel = StrutsWeatherCapability.Packet.registerMessage(channel);
         INSTANCE = channel.build();

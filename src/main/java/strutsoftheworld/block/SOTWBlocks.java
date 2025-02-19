@@ -25,40 +25,40 @@ public class SOTWBlocks {
     );
 
     public static final RegistryObject<Block> TRASH_BLOCK = registerBlockAndItem("trash_block",
-        () -> new SustainsRotWeedBlock(BlockBehaviour.Properties.of()
-            .setId(BLOCKS.key("trash_block"))
-            .mapColor(MapColor.COLOR_BROWN)
-            .strength(1.5f)
-            .sound(SoundType.METAL)
+        () -> new SustainsRotWeedBlock(
+            ofId("trash_block")
+                .mapColor(MapColor.COLOR_BROWN)
+                .strength(1.5f)
+                .sound(SoundType.METAL)
         )
     );
 
     public static final RegistryObject<TrashPileBlock> TRASH_PILE = registerBlockAndItem("trash_pile",
-        () -> new TrashPileBlock(BlockBehaviour.Properties.of()
-            .setId(BLOCKS.key("trash_pile"))
-            .mapColor(waterloggedMapColor(MapColor.COLOR_BROWN))
-            .replaceable()
-            .noCollission()
-            .instabreak()
-            .pushReaction(PushReaction.DESTROY)
-            .sound(SoundType.METAL)
-            .offsetType(BlockBehaviour.OffsetType.XZ)
+        () -> new TrashPileBlock(
+            ofId("trash_pile")
+                .mapColor(waterloggedMapColor(MapColor.COLOR_BROWN))
+                .replaceable()
+                .noCollission()
+                .instabreak()
+                .pushReaction(PushReaction.DESTROY)
+                .sound(SoundType.METAL)
+                .offsetType(BlockBehaviour.OffsetType.XZ)
         )
     );
 
     public static final RegistryObject<RotWeedBlock> ROT_WEED = registerBlock("rot_weed",
-        () -> new RotWeedBlock(BlockBehaviour.Properties.of()
-            .setId(BLOCKS.key("rot_weed"))
-            .mapColor(MapColor.PLANT)
-            .replaceable()
-            .noCollission()
-            .instabreak()
-            .noOcclusion()
-            .ignitedByLava()
-            .lightLevel(state -> state.getValue(RotWeedBlock.AGE) == RotWeedBlock.MAX_AGE ? 7 : 0)
-            .pushReaction(PushReaction.DESTROY)
-            .sound(SoundType.GRASS)
-            .offsetType(BlockBehaviour.OffsetType.XYZ)
+        () -> new RotWeedBlock(
+            ofId("rot_weed")
+                .mapColor(MapColor.PLANT)
+                .replaceable()
+                .noCollission()
+                .instabreak()
+                .noOcclusion()
+                .ignitedByLava()
+                .lightLevel(state -> state.getValue(RotWeedBlock.AGE) == RotWeedBlock.MAX_AGE ? 7 : 0)
+                .pushReaction(PushReaction.DESTROY)
+                .sound(SoundType.GRASS)
+                .offsetType(BlockBehaviour.OffsetType.XYZ)
         ));
 
     private static <T extends Block> RegistryObject<T> registerBlock(String name, Supplier<T> block) {
@@ -75,8 +75,8 @@ public class SOTWBlocks {
         return state -> state.getValue(BlockStateProperties.WATERLOGGED) ? MapColor.WATER : color;
     }
 
-    private static ToIntFunction<BlockState> litBlockEmission(int emissionValue) {
-        return state -> state.getValue(BlockStateProperties.LIT) ? emissionValue : 0;
+    private static BlockBehaviour.Properties ofId(String name) {
+        return BlockBehaviour.Properties.of().setId(BLOCKS.key(name));
     }
 
     public static void register(IEventBus bus) {

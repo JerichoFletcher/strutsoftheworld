@@ -10,18 +10,47 @@ import org.slf4j.Logger;
 @Mod.EventBusSubscriber(modid = StrutsOfTheWorldMod.MOD_ID, bus = Mod.EventBusSubscriber.Bus.MOD)
 public class Config {
     private static final Logger LOGGER = LogUtils.getLogger();
-    private static final ForgeConfigSpec.Builder BUILDER = new ForgeConfigSpec.Builder();
 
-    /// TODO: Define ConfigValue<T> instances
+    public static final ForgeConfigSpec CLIENT_SPEC;
+    public static final ClientConfig CLIENT;
 
-    static final ForgeConfigSpec SPEC = BUILDER.build();
-
-    /// TODO: Define static properties
+    static {
+        final var clientSpec = new ForgeConfigSpec.Builder().configure(ClientConfig::new);
+        CLIENT = clientSpec.getLeft();
+        CLIENT_SPEC = clientSpec.getRight();
+    }
 
     @SubscribeEvent
-    static void onLoad(final ModConfigEvent event) {
-        /// TODO: Load config values to static properties
+    public static void onLoad(final ModConfigEvent.Loading event) {
+        if (event.getConfig().getSpec() == CLIENT_SPEC) {
+            CLIENT.load();
+        }
+    }
 
-        LOGGER.info("Loaded config values");
+    @SubscribeEvent
+    public static void onReload(final ModConfigEvent.Reloading event) {
+        if (event.getConfig().getSpec() == CLIENT_SPEC) {
+            CLIENT.load();
+        }
+    }
+
+    public static class ClientConfig {
+        public float strutsRainDensity;
+
+        private final ForgeConfigSpec.FloatValue strutsRainDensityCfg;
+
+        public ClientConfig(ForgeConfigSpec.Builder builder) {
+            builder
+                .comment("Config for weather and special effects.")
+                .push("effects");
+            strutsRainDensityCfg = builder
+                .comment("Controls the density of the Struts rain, affecting how many particles are spawned.")
+                .defineInRange("strutsMaxRainParticleSpawnProbability", 0.67f, 0f, 1f);
+            builder.pop();
+        }
+
+        public void load() {
+            strutsRainDensity = strutsRainDensityCfg.get();
+        }
     }
 }
